@@ -5,21 +5,17 @@ This is a base Nerves System configuration for the [NanoPi Core2](http://www.ora
 ![Orange Pi Zero Black image](assets/images/Core2_02-900x630.jpg)
 <br><sup>[Image credit](#nanopi)</sup>
 
-| Feature        | Description                                                               |
-|:---------------|:--------------------------------------------------------------------------|
-| CPU            | H2 Quad-core Cortex-A7 H.265/HEVC 1080P.                                  |
-| GPU            | Mali400MP2 GPU @600MHz (OpenGL ES 2.0)                                    |
-| Memory         | 256MB/512MB DDR3 SDRAM(Share with GPU)(256MB version is Standard version) |
-| Storage        | TF card (Max. 64GB)                                                       |
-| Linux kernel   | 4.10 w/ sun8i emac patches                                                |
-| IEx terminal   | ttyS0 via the FTDI connector                                              |
-| GPIO, I2C, SPI | Yes - Elixir ALE                                                          |
-| ADC            | Yes                                                                       |
-| PWM            | WIP - Yes, but no Elixir support                                          |
-| UART           | ttyS0 + more via device tree overlay                                      |
-| Camera         | None                                                                      |
-| Ethernet       | Yes                                                                       |
-| WiFi           | WIP - Linux mainline driver support is poor for the XR819 chipset         |
+* CPU: Allwinner H5, Quad-core 64-bit high-performance Cortex A53
+* DDR3 RAM: 512MB/1GB
+* Storage: 8GB/16GB/32GB eMMC
+* Connectivity: 10/100/1000M Ethernet utilizing RTL8211E-VB-CG
+* USB Host x 3(included in 2.54mm pitch pin header)
+* MicroSD Slot x 1
+* LED: x 2, one for power status and the other for system status
+* GPIO1: 2.54mm pitch 12 x 2 pin header containing UART, SPI, I2C, GPIO and etc
+* GPIO2: 2.54mm pitch 24 pin header containing SPI, IR, I2S, USB, serial debug port, audio and etc
+* GPIO3: 2.54mm pitch 20 pin header containing USB, Gbps Ethernet, I2C and etc
+* PCB Size: 40 x 40mm
 
 
 ## Preparing your Orange Pi Zero
