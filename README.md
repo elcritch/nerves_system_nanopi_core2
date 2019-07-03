@@ -1,11 +1,9 @@
-# Orange Pi Zero Black
+# Nanopi Core2 
 
-[![Build Status](https://travis-ci.org/BrightAgrotech/nerves_system_nanopi_core2.png?branch=master)](https://travis-ci.org/BrightAgrotech/nerves_system_orangepi_zero)
+This is a base Nerves System configuration for the [NanoPi Core2](http://www.orangepi.org/orangepizero/).
 
-This is the base Nerves System configuration for the [Orange P Zero](http://www.orangepi.org/orangepizero/).
-
-![Orange Pi Zero Black image](assets/images/orangepizero_info.jpg)
-<br><sup>[Image credit](#orangepi)</sup>
+![Orange Pi Zero Black image](assets/images/Core2_02-900x630.jpg)
+<br><sup>[Image credit](#nanopi)</sup>
 
 | Feature        | Description                                                               |
 |:---------------|:--------------------------------------------------------------------------|
