@@ -1,4 +1,4 @@
-defmodule NervesSystemRpi3.Mixfile do
+defmodule NervesSystemNanoPiCore2.Mixfile do
   use Mix.Project
 
   @app :nerves_system_nanopi_core2
