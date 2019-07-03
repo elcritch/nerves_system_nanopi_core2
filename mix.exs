@@ -1,32 +1,32 @@
-defmodule NervesSystemNanoPiCore2.Mixfile do
+defmodule NervesSystemNanopiCore2.MixProject do
   use Mix.Project
 
   @app :nerves_system_nanopi_core2
   @version Path.join(__DIR__, "VERSION")
-    |> File.read!
-    |> String.trim
+           |> File.read!()
+           |> String.trim()
 
   def project do
-    [app: @app,
-     version: @version,
-     elixir: "~> 1.6",
-     compilers: Mix.compilers ++ [:nerves_package],
-     nerves_package: nerves_package(),
-     description: description(),
-     package: package(),
-     deps: deps(),
-     # aliases: ["deps.precompile": ["nerves.env", "deps.precompile"]]
-     aliases: [loadconfig: [&bootstrap/1], docs: ["docs", &copy_images/1]],
-     docs: [extras: ["README.md"], main: "readme"],
+    [
+      app: @app,
+      version: @version,
+      elixir: "~> 1.6",
+      compilers: Mix.compilers() ++ [:nerves_package],
+      nerves_package: nerves_package(),
+      description: description(),
+      package: package(),
+      deps: deps(),
+      aliases: [loadconfig: [&bootstrap/1], docs: ["docs", &copy_images/1]],
+      docs: [extras: ["README.md"], main: "readme"]
     ]
   end
 
   def application do
-   []
+    []
   end
 
   defp bootstrap(args) do
-    System.put_env("MIX_TARGET", "orangepiz")
+    set_target()
     Application.start(:nerves_bootstrap)
     Mix.Task.run("loadconfig", args)
   end
@@ -37,6 +37,7 @@ defmodule NervesSystemNanoPiCore2.Mixfile do
       artifact_sites: [
         {:github_releases, "elcritch/#{@app}"}
       ],
+      build_runner_opts: build_runner_opts(),
       platform: Nerves.System.BR,
       platform_config: [
         defconfig: "nerves_defconfig"
@@ -47,44 +48,48 @@ defmodule NervesSystemNanoPiCore2.Mixfile do
 
   defp deps do
     [
-     {:nerves, "~> 1.3", runtime: false},
-     {:nerves_system_br, "~> 1.5.4", runtime: false },
-     {:nerves_toolchain_arm_unknown_linux_gnueabihf, "1.1.0", runtime: false},
-     {:nerves_system_linter, "~> 0.3.0", runtime: false},
-     {:nerves_toolchain_arm_unknown_linux_gnueabihf, "~> 1.1", runtime: false},
-     {:ex_doc, "~> 0.18", only: [:dev, :test], runtime: false}
+      {:nerves, "~> 1.3", runtime: false},
+      {:nerves_system_br, "1.7.2", runtime: false},
+      {:nerves_toolchain_arm_unknown_linux_gnueabihf, "1.1.0", runtime: false},
+      {:nerves_system_linter, "~> 0.3.0", runtime: false},
+      {:ex_doc, "~> 0.18", only: [:dev, :test], runtime: false}
     ]
   end
 
   defp description do
-   """
-   Nerves System - Orange Pi Zero
-   """
-  end
-
-  defp package_files() do
-    [
-      "fwup_include",
-      "rootfs-additions",
-      "LICENSE",
-      "mix.exs",
-      "nerves_defconfig",
-      "nerves.exs",
-      "README.md",
-      "VERSION",
-      "fwup.conf",
-      "fwup-revert.conf",
-      "post-createfs.sh",
-      "uboot-script.cmd",
-      "linux",
-    ]
+    """
+    Nerves System - NanoPi Core2
+    """
   end
 
   defp package do
-    [ maintainers: [ "Jaremy Creechley <creechley@gmail.com>" ],
-     files: package_files(),
-     licenses: ["Apache 2.0"],
-     links: %{"Github" => "https://github.com/elcritch/#{@app}"}]
+    [
+      maintainers: ["Jaremy Creechley"],
+      files: package_files(),
+      licenses: ["Apache 2.0"],
+      links: %{"GitHub" => "https://github.com/elcritch/#{@app}"}
+    ]
+  end
+
+  defp package_files do
+    [
+      "fwup_include",
+      "rootfs_overlay",
+      "CHANGELOG.md",
+      "cmdline.txt",
+      "config.txt",
+      "fwup-revert.conf",
+      "fwup.conf",
+      "LICENSE",
+      "linux-4.19.defconfig",
+      "mix.exs",
+      "nerves_defconfig",
+      "post-build.sh",
+      "post-createfs.sh",
+      "ramoops.dts",
+      "README.md",
+      "VERSION"
+    ]
   end
 
   # Copy the images referenced by docs, since ex_doc doesn't do this.
@@ -92,4 +97,19 @@ defmodule NervesSystemNanoPiCore2.Mixfile do
     File.cp_r("assets", "doc/assets")
   end
 
+  defp build_runner_opts() do
+    if primary_site = System.get_env("BR2_PRIMARY_SITE") do
+      [make_args: ["BR2_PRIMARY_SITE=#{primary_site}"]]
+    else
+      []
+    end
+  end
+
+  defp set_target() do
+    if function_exported?(Mix, :target, 1) do
+      apply(Mix, :target, [:target])
+    else
+      System.put_env("MIX_TARGET", "target")
+    end
+  end
 end
