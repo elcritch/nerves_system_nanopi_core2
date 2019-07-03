@@ -1,6 +1,6 @@
 # Orange Pi Zero Black
 
-[![Build Status](https://travis-ci.org/BrightAgrotech/nerves_system_orangepi_zero.png?branch=master)](https://travis-ci.org/BrightAgrotech/nerves_system_orangepi_zero)
+[![Build Status](https://travis-ci.org/BrightAgrotech/nerves_system_nanopi_core2.png?branch=master)](https://travis-ci.org/BrightAgrotech/nerves_system_orangepi_zero)
 
 This is the base Nerves System configuration for the [Orange P Zero](http://www.orangepi.org/orangepizero/).
 
@@ -50,16 +50,16 @@ The kernel driver for the XRadio chip has _not_ been included due to instability
 
 If [available in Hex](https://hex.pm/docs/publish), the package can be installed as:
 
-  1. Add nerves_system_orangepi_zero to your list of dependencies in `mix.exs`:
+  1. Add nerves_system_nanopi_core2 to your list of dependencies in `mix.exs`:
 
         def deps do
-          [{:nerves_system_orangepi_zero, "~> 0.2.4"}]
+          [{:nerves_system_nanopi_core2, "~> 0.2.4"}]
         end
 
-  2. Ensure nerves_system_orangepi_zero is started before your application:
+  2. Ensure nerves_system_nanopi_core2 is started before your application:
 
         def application do
-          [applications: [:nerves_system_orangepi_zero]]
+          [applications: [:nerves_system_nanopi_core2]]
         end
 
 
