@@ -89,7 +89,6 @@ booti $kernel_addr_r - $fdt_addr_r
 
 load mmc 0:1 ${kernel_addr_r} zImage
 
-#fdtfile=sun8i-h2-plus-orangepi-zero.dtb
 fdtfile=sun50i-h5-nanopi-neo2.dtb
 # Load the DT. On the BBB, fdtfile=sun8i-h3-nanopi-neo.dtb
 load mmc 0:1 ${fdt_addr_r} ${fdtfile}
