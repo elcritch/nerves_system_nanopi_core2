@@ -16,4 +16,4 @@ cp -rf $NERVES_DEFCONFIG_DIR/fwup_include $BINARIES_DIR
 # go in /boot since it's so small. See the fwup.conf for how the zImage
 # is put in the FAT filesystem. Remove zImage from /boot since we can't
 # tell Buildroot to just put the .dtb files there.
-rm -f $TARGET_DIR/boot/zImage
+rm -f $TARGET_DIR/boot/Image
