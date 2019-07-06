@@ -89,8 +89,8 @@ booti $kernel_addr_r - $fdt_addr_r
 
 load mmc 0:1 ${kernel_addr_r} Image
 
-fdtfile=sun50i-h5-nanopi-neo-core2.dts
-# Load the DT. On the BBB, fdtfile=sun50i-h5-nanopi-neo2.dtb
+fdtfile=sun50i-h5-nanopi-neo-core2.dtb
+# Load the DT. On the NanoPi, fdtfile
 load mmc 0:1 ${fdt_addr_r} ${fdtfile}
 
 fdt addr ${fdt_addr_r}
