@@ -15,9 +15,8 @@ new file mode 100644
 index 000000000..b3035ddd7
 --- /dev/null
 +++ b/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo-core2.dts
-@@ -0,0 +1,210 @@
+@@ -0,0 +1,540 @@
 +/*
-+ * Copyright (C) 2017 Antony Antony <antony@phenome.org>
 + * Copyright (C) 2016 ARM Ltd.
 + *
 + * This file is dual-licensed: you can use it either under the terms
@@ -65,46 +64,11 @@ index 000000000..b3035ddd7
 +#include <dt-bindings/gpio/gpio.h>
 +#include <dt-bindings/input/input.h>
 +#include <dt-bindings/pinctrl/sun4i-a10.h>
++#include <dt-bindings/thermal/thermal.h>
 +
 +/ {
-+	model = "FriendlyARM NanoPi NEO Core2";
-+	compatible = "friendlyarm,nanopi-neo-core2", "allwinner,sun50i-h5";
-+
-+	aliases {
-+		ethernet0 = &emac;
-+		serial0 = &uart0;
-+	};
-+
-+	chosen {
-+		stdout-path = "serial0:115200n8";
-+	};
-+
-+	leds {
-+		compatible = "gpio-leds";
-+
-+		pwr {
-+			label = "nanopi:red:pwr";
-+			gpios = <&r_pio 0 10 GPIO_ACTIVE_HIGH>; /* PL10 */
-+			linux,default-trigger = "default-on";
-+		};
-+
-+		status {
-+			label = "nanopi:green:status";
-+			gpios = <&pio 0 10 GPIO_ACTIVE_HIGH>; /* PA10 */
-+			linux,default-trigger = "heartbeat";
-+		};
-+	};
-+
-+	reg_gmac_3v3: gmac-3v3 {
-+		compatible = "regulator-fixed";
-+		pinctrl-names = "default";
-+		regulator-name = "gmac-3v3";
-+		regulator-min-microvolt = <3300000>;
-+		regulator-max-microvolt = <3300000>;
-+		startup-delay-us = <100000>;
-+		enable-active-high;
-+		gpio = <&pio 3 6 GPIO_ACTIVE_HIGH>;
-+	};
++	model = "FriendlyElec NanoPi-NEO-Core2";
++	compatible = "friendlyelec,nanopi-neo-core2", "allwinner,sun50i-h5";
 +
 +	reg_vcc3v3: vcc3v3 {
 +		compatible = "regulator-fixed";
@@ -113,16 +77,183 @@ index 000000000..b3035ddd7
 +		regulator-max-microvolt = <3300000>;
 +	};
 +
-+	wifi_pwrseq: wifi_pwrseq {
-+		compatible = "mmc-pwrseq-simple";
-+		pinctrl-names = "default";
-+		reset-gpios = <&r_pio 0 7 GPIO_ACTIVE_LOW>; /* PL7 */
-+		post-power-on-delay-ms = <200>;
++	aliases {
++		serial0 = &uart0;
++		serial1 = &uart1;
++		serial2 = &uart2;
++		serial3 = &uart3;
++		i2c0 = &i2c0;
++		i2c1 = &i2c1;
++		i2c2 = &i2c2;
++		spi0 = &spi0;
++		spi1 = &spi1;
++		pwm0 = &pwm;
++		mmc0 = &mmc0;
++		mmc2 = &mmc2;
++		ethernet0 = &emac;
++		lcd0 = &lcd0;
++		i2s0 = &i2s0;
++		pcm5102a = &pcm5102a;
++		spidev0 = &spidev0;
++        spiflash = &spiflash;
++        pitft = &pitft;
++        pitft_ts = &pitft_ts;
 +	};
++
++	chosen {
++		stdout-path = "serial0:115200n8";
++	};
++
++	leds {
++		compatible = "gpio-leds";
++		pinctrl-names = "default";
++		pinctrl-0 = <&leds_npi>, <&leds_r_npi>;
++
++		status {
++			label = "nanopi:blue:status";
++			gpios = <&pio 0 10 GPIO_ACTIVE_HIGH>;
++			linux,default-trigger = "heartbeat";
++		};
++
++		pwr {
++			label = "nanopi:green:pwr";
++			gpios = <&r_pio 0 10 GPIO_ACTIVE_HIGH>;
++			default-state = "on";
++		};
++	};
++
++	r-gpio-keys {
++		compatible = "gpio-keys";
++
++		sw4 {
++			label = "sw4";
++			linux,code = <BTN_0>;
++			gpios = <&r_pio 0 3 GPIO_ACTIVE_LOW>;
++		};
++	};
++
++	reg_usb0_vbus: usb0-vbus {
++		compatible = "regulator-fixed";
++		regulator-name = "usb0-vbus";
++		regulator-min-microvolt = <5000000>;
++		regulator-max-microvolt = <5000000>;
++		enable-active-high;
++		gpio = <&r_pio 0 2 GPIO_ACTIVE_HIGH>; /* PL2 */
++		status = "okay";
++	};
++
++	reg_gmac_3v3: gmac-3v3 {
++		compatible = "regulator-fixed";
++		pinctrl-names = "default";
++		pinctrl-0 = <&gmac_power_pin_nanopi>;
++		regulator-name = "gmac-3v3";
++		regulator-min-microvolt = <3300000>;
++		regulator-max-microvolt = <3300000>;
++		startup-delay-us = <100000>;
++		enable-active-high;
++		gpio = <&pio 3 6 GPIO_ACTIVE_HIGH>;
++	};
++
++	vdd_cpux: gpio-regulator {
++		compatible = "regulator-gpio";
++
++		pinctrl-names = "default";
++		pinctrl-0 = <&vdd_cpux_r_npi>;
++
++		regulator-name = "vdd-cpux";
++		regulator-type = "voltage";
++		regulator-boot-on;
++		regulator-always-on;
++		regulator-min-microvolt = <1100000>;
++		regulator-max-microvolt = <1100000>;
++		regulator-ramp-delay = <50>; /* 4ms */
++
++		gpios = <&r_pio 0 6 GPIO_ACTIVE_HIGH>;
++		gpios-states = <0x1>;
++		states = <1100000 0x0
++			  1100000 0x1>;
++	};
++
++	pcm5102a: pcm5102a-codec {
++        #sound-dai-cells = <0>;
++        compatible = "ti,pcm5102a";
++        status = "disabled";
++    };
 +};
 +
 +&cpu0 {
-+	cpu-supply = <&vdd_cpux>;
++	operating-points = <
++		/* kHz	  uV */
++        1368000 1400000
++        1344000 1400000
++        1296000 1340000
++        1248000 1280000
++        1224000 1260000
++        1200000 1240000
++        1152000 1200000
++        1104000 1170000
++        1080000 1160000
++        1056000 1150000
++        1008000 1100000
++        960000  1100000
++        936000  1100000
++        912000  1100000
++        864000  1100000
++        816000  1100000
++        792000  1100000
++        768000  1100000
++        720000  1100000
++        672000  1100000
++        648000  1100000
++        528000  1100000
++        480000  1100000
++        240000  1100000
++        120000  1100000
++		>;
++	#cooling-cells = <2>;
++	cooling-min-level = <0>;
++	cooling-max-level = <24>;
++	cpu0-supply = <&vdd_cpu>;
++};
++
++&cpu_thermal {
++	trips {
++		cpu_warm: cpu_warm {
++			temperature = <65000>;
++			hysteresis = <2000>;
++			type = "passive";
++		};
++		cpu_hot: cpu_hot {
++			temperature = <75000>;
++			hysteresis = <2000>;
++			type = "passive";
++		};
++		cpu_very_hot: cpu_very_hot {
++			temperature = <90000>;
++			hysteresis = <2000>;
++			type = "passive";
++		};
++		cpu_crit: cpu_crit {
++			temperature = <105000>;
++			hysteresis = <2000>;
++			type = "critical";
++		};
++	};
++
++	cooling-maps {
++		cpu_warm_limit_cpu {
++			trip = <&cpu_warm>;
++			cooling-device = <&cpu0 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
++		};
++		cpu_hot_limit_cpu {
++			trip = <&cpu_hot>;
++			cooling-device = <&cpu0 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
++		};
++		cpu_very_hot_limit_cpu {
++			trip = <&cpu_very_hot>;
++			cooling-device = <&cpu0 18 THERMAL_NO_LIMIT>; /* Limit cpu speed above 90C to 720MHz */
++		};
++	};
 +};
 +
 +&codec {
@@ -133,7 +264,19 @@ index 000000000..b3035ddd7
 +	status = "okay";
 +};
 +
++&de {
++	status = "okay";
++};
++
 +&ehci0 {
++	status = "okay";
++};
++
++&ehci1 {
++	status = "okay";
++};
++
++&ehci2 {
 +	status = "okay";
 +};
 +
@@ -159,45 +302,73 @@ index 000000000..b3035ddd7
 +	status = "okay";
 +};
 +
-+&external_mdio {
-+	ext_rgmii_phy: ethernet-phy@7 {
-+		compatible = "ethernet-phy-ieee802.3-c22";
-+		reg = <7>;
-+	};
++&hdmi {
++	status = "okay";
++};
++
++&ir {
++	pinctrl-names = "default";
++	pinctrl-0 = <&ir_pins_a>;
++	status = "okay";
++};
++
++&lcd0 {
++	status = "okay";
 +};
 +
 +&mmc0 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&mmc0_pins_a>, <&mmc0_cd_pin>;
 +	vmmc-supply = <&reg_vcc3v3>;
 +	bus-width = <4>;
 +	cd-gpios = <&pio 5 6 GPIO_ACTIVE_LOW>; /* PF6 */
++	boot_device = <0>;
 +	status = "okay";
 +};
 +
 +&mmc1 {
-+	vmmc-supply = <&reg_vcc3v3>;
-+	vqmmc-supply = <&reg_vcc3v3>;
-+	mmc-pwrseq = <&wifi_pwrseq>;
-+	bus-width = <4>;
-+	non-removable;
-+	status = "okay";
++    pinctrl-names = "default";
++    pinctrl-0 = <&mmc1_pins_a>;
++    vmmc-supply = <&reg_vcc3v3>;
++    vqmmc-supply = <&reg_vcc3v3>;
++    mmc-pwrseq = <&wifi_pwrseq>;
++    bus-width = <4>;
++    non-removable;
++    status = "okay";
 +
-+	brcmf: wifi@1 {
-+		reg = <1>;
-+		compatible = "brcm,bcm4329-fmac";
-+	};
++    brcmf: bcrmf@1 {
++        reg = <1>;
++        compatible = "brcm,bcm4329-fmac";
++    };
 +};
 +
 +&mmc2 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&mmc2_8bit_pins>;
-+	vmmc-supply = <&reg_vcc3v3>;
-+	bus-width = <8>;
-+	non-removable;
-+	cap-mmc-hw-reset;
-+	status = "okay";
++    pinctrl-names = "default";
++    pinctrl-0 = <&mmc2_8bit_pins>;
++    vmmc-supply = <&reg_vcc3v3>;
++    bus-width = <8>;
++    non-removable;
++    cap-mmc-hw-reset;
++    boot_device = <0>;
++    status = "okay";
++};
++
++&mmc2_8bit_pins {
++    /* Increase drive strength for DDR modes */
++    drive-strength = <40>;
++    /* eMMC is missing pull-ups */
++    bias-pull-up;
 +};
 +
 +&ohci0 {
++	status = "okay";
++};
++
++&ohci1 {
++	status = "okay";
++};
++
++&ohci2 {
 +	status = "okay";
 +};
 +
@@ -205,14 +376,41 @@ index 000000000..b3035ddd7
 +	status = "okay";
 +};
 +
++&pio {
++	leds_npi: led_pins@0 {
++		pins = "PA10";
++		function = "gpio_out";
++	};
++	gmac_power_pin_nanopi: gmac_power_pin@0 {
++		pins = "PD6";
++		function = "gpio_out";
++	};
++	spi0_cs_pins: spi0_cs_pins {
++        pins = "PC3", "PA6";
++        function = "gpio_out";
++    };
++};
++
++&r_pio {
++	leds_r_npi: led_pins@0 {
++		pins = "PL10";
++		function = "gpio_out";
++	};
++	vdd_cpux_r_npi: regulator_pins@0 {
++		allwinner,pins = "PL6";
++		allwinner,function = "gpio_out";
++		allwinner,drive = <SUN4I_PINCTRL_10_MA>;
++		allwinner,pull = <SUN4I_PINCTRL_NO_PULL>;
++	};
++};
++
 +&r_i2c {
 +	status = "okay";
 +
-+	vdd_cpux: regulator@65 {
++	vdd_cpu: regulator@65 {
 +		compatible = "silergy,sy8106a";
 +		reg = <0x65>;
-+		silergy,fixed-microvolt = <1000000>;
-+		regulator-min-microvolt = <1000000>;
++		regulator-min-microvolt = <1100000>;
 +		regulator-max-microvolt = <1400000>;
 +		regulator-ramp-delay = <200>;
 +		regulator-boot-on;
@@ -226,12 +424,135 @@ index 000000000..b3035ddd7
 +	status = "okay";
 +};
 +
-+/* &usb_otg {
-+	dr_mode = "host";
++&uart1 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&uart1_pins>;
 +	status = "okay";
-+}; */
++};
++
++&uart2 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&uart2_pins>;
++	status = "okay";
++};
++
++&uart3 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&uart3_pins>, <&uart3_rts_cts_pins>;
++	status = "okay";
++};
++
++&usb_otg {
++	dr_mode = "otg";
++	status = "okay";
++};
 +
 +&usbphy {
 +	/* USB Type-A ports' VBUS is always on */
++	usb0_id_det-gpios = <&pio 6 12 GPIO_ACTIVE_HIGH>; /* PG12 */
++	usb0_vbus-supply = <&reg_usb0_vbus>;
 +	status = "okay";
++};
++
++&i2c0 {
++    status = "okay";
++    rtc@68 {
++        compatible = "dallas,ds1307";
++        reg = <0x68>;
++    };
++};
++
++&i2c1 {
++    /* no I2C1 for I2S0 */
++    status = "okay";
++};
++
++&i2c2 {
++    status = "okay";
++};
++
++&spi0 {
++    /* needed to avoid dtc warning */
++    #address-cells = <1>;
++    #size-cells = <0>;
++
++    status = "okay";
++    pinctrl-names = "default";
++    pinctrl-0 = <&spi0_pins &spi0_cs_pins>;
++    cs-gpios = <&pio 2 3 GPIO_ACTIVE_HIGH>, <&pio 0 6 GPIO_ACTIVE_HIGH>;
++
++    spidev0: spi@0 {
++        compatible = "nanopi,spidev";
++        reg = <0>;
++        status = "disabled";
++
++        spi-max-frequency = <10000000>;
++    };
++
++    spiflash: spiflash@0 {
++        #address-cells = <1>;
++        #size-cells = <1>;
++        compatible = "mxicy,mx25l1606e";
++        reg = <0>;
++        status = "disabled";
++
++        spi-max-frequency = <50000000>;
++        mode = <0>;
++
++        partition@0 {
++            reg = <0x0 0x200000>;
++            label = "spi-flash";
++        };
++    };
++
++    pitft: pitft@0{
++        compatible = "sitronix,st7789v";
++        reg = <0>;
++        status = "okay";
++
++        spi-max-frequency = <50000000>;
++        rotate = <90>;
++        fps = <33>;
++        buswidth = <8>;
++        dc-gpios = <&pio 0 1 GPIO_ACTIVE_HIGH>;     /* PA1 */
++        reset-gpios = <&pio 6 11 GPIO_ACTIVE_HIGH>; /* PG11 */
++        debug = <0x0>;
++    };
++
++    pitft_ts: pitft-ts@1 {
++        compatible = "ti,ads7846";
++        reg = <1>;
++        status = "okay";
++
++        spi-max-frequency = <2000000>;
++        interrupt-parent = <&pio>;
++        interrupts = <6 9 IRQ_TYPE_EDGE_FALLING>;   /* PG9 / EINT9 */
++        pendown-gpio = <&pio 6 9 GPIO_ACTIVE_LOW>;
++        ti,swap-xy;
++        ti,vref-delay-usecs = <1000>;
++        ti,x-min = /bits/ 16 <100>;
++        ti,x-max = /bits/ 16 <0xfff>;
++        ti,y-min = /bits/ 16 <100>;
++        ti,y-max = /bits/ 16 <0xfff>;
++        ti,vref-mv = <3300>;
++        ti,x-plate-ohms = /bits/ 16 <256>;
++        ti,penirq-recheck-delay-usecs = <10>;
++        ti,settle-delay-usec = /bits/ 16 <100>;
++        ti,keep-vref-on = <1>;
++        ti,pressure-max = /bits/ 16 <0xfff>;
++        ti,debounce-max = <10>;
++        ti,debounce-tol = <30>;
++        ti,debounce-rep = <1>;
++    };
++};
++
++&pwm {
++	pinctrl-names = "default";
++	pinctrl-0 = <&pwm0_pins>;
++	status = "disabled";
++};
++
++&i2s0 {
++	sound-dai = <&pcm5102a>;
++	status = "disabled";
 +};
