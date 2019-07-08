@@ -217,10 +217,10 @@ index 000000000..b3035ddd7
 +	status = "okay";
 +};
 +
-+&usb_otg {
++/* &usb_otg {
 +	dr_mode = "host";
 +	status = "okay";
-+};
++}; */
 +
 +&usbphy {
 +	/* USB Type-A ports' VBUS is always on */
