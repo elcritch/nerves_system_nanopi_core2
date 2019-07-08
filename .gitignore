@@ -9,3 +9,4 @@ erl_crash.dump
 *.tar.gz
 build.log
 archive.log
+.elixir_ls
