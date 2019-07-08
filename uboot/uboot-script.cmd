@@ -74,7 +74,7 @@ itest.b *0x28 == 0x02 && echo "Booting from eMMC or secondary SD"
 # Disable GPU memory (?)
 # if test "${disp_mem_reserves}" = "off"; then setenv bootargs "${bootargs} sunxi_ve_mem_reserve=0 sunxi_g2d_mem_reserve=0 sunxi_fb_mem_reserve=16"; fi
 
-setenv bootargs console=ttyS0,115200 earlyprintk loglevel=8 root=/dev/mmcblk0p2 rootfstype=squashfs overlays=uart1 ro rootwait
+setenv bootargs console=ttyS0,115200 earlyprintk loglevel=8 root=/dev/mmcblk0p2 rootfstype=squashfs ro rootwait
 
 echo "Bootargs: ${bootargs}"
 
@@ -85,8 +85,6 @@ echo "Bootargs: ${bootargs}"
 # fatload mmc 0 $kernel_addr_r Image
 # fatload mmc 0 $fdt_addr_r sun50i-h5-nanopi-neo2.dtb
 
-booti $kernel_addr_r - $fdt_addr_r
-
 load mmc 0:1 ${kernel_addr_r} Image
 
 fdtfile=sun50i-h5-nanopi-neo-core2.dtb
@@ -96,16 +94,19 @@ load mmc 0:1 ${fdt_addr_r} ${fdtfile}
 fdt addr ${fdt_addr_r}
 fdt resize 65536
 
-overlay_prefix=sun8i-h3
+# overlay_prefix=sun8i-h5
 
-for overlay_file in ${overlays}; do
-    if load ${devtype} ${devnum} ${load_addr} overlays/${overlay_prefix}-${overlay_file}.dtbo; then
-      echo "Applying kernel provided DT overlay ${overlay_prefix}-${overlay_file}.dtbo"
-      fdt apply ${load_addr} || setenv overlay_error "true"
-    fi
-done
+# for overlay_file in ${overlays}; do
+#     if load ${devtype} ${devnum} ${load_addr} overlays/${overlay_prefix}-${overlay_file}.dtbo; then
+#       echo "Applying kernel provided DT overlay ${overlay_prefix}-${overlay_file}.dtbo"
+#       fdt apply ${load_addr} || setenv overlay_error "true"
+#     fi
+# done
 
 # Boot!!
-boot ${kernel_addr_r} - ${fdt_addr_r}
+
+# booti $kernel_addr_r - $fdt_addr_r
+
+booti ${kernel_addr_r} - ${fdt_addr_r}
 
 echo "Nerves boot failed!"
