@@ -1,7 +1,7 @@
 diff --git a/arch/arm/boot/dts/sunxi-h3-h5.dtsi b/arch/arm/boot/dts/sunxi-h3-h5.dtsi
 index c6fc096..731e2ae 100644
 --- a/arch/arm/boot/dts/sunxi-h3-h5.dtsi
-+++ b/arch/arm/boot/dts/sunxi-h3-h5.dtsi--- /home/elcritch/projects/nervsy/system/nerves_system_nanopi_core2_test/.nerves/artifacts/nerves_system_nanopi_core2_v2-portable-0.2.1/build/linux-4.19.7/arch/arm/boot/dts/sunxi-h3-h5.dtsi	2018-12-05 11:32:14.000000000 -0700
++++ b/arch/arm/boot/dts/sunxi-h3-h5.dtsi
 @@ -53,30 +53,6 @@
  	#address-cells = <1>;
  	#size-cells = <1>;
