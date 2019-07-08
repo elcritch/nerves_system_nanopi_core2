@@ -141,12 +141,21 @@ index 000000000..b3035ddd7
 +	status = "okay";
 +};
 +
++&mdio {
++	ext_rgmii_phy: ethernet-phy@1 {
++		reg = <0>;
++	};
++};
++
 +&emac {
 +	pinctrl-names = "default";
 +	pinctrl-0 = <&emac_rgmii_pins>;
 +	phy-supply = <&reg_gmac_3v3>;
 +	phy-handle = <&ext_rgmii_phy>;
 +	phy-mode = "rgmii";
++	local-mac-address = [ 00 00 00 00 00 00 ];
++
++	allwinner,leds-active-low;
 +	status = "okay";
 +};
 +

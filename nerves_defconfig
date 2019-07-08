@@ -128,3 +128,7 @@ BR2_NERVES_ADDITIONAL_IMAGE_FILES="$(NERVES_DEFCONFIG_DIR)/fwup.conf ${NERVES_DE
 BR2_PACKAGE_BOARDID=y
 BR2_PACKAGE_ERLANG_HISTORY=y
 BR2_PACKAGE_NERVES_CONFIG=y
+
+# http://linux-sunxi.org/FriendlyARM_NanoPi_NEO2#Manufacturer_images
+# https://github.com/friendlyarm/linux/blob/sunxi-4.11.y/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo-core2.dts
+
