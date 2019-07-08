@@ -85,14 +85,14 @@ echo "Bootargs: ${bootargs}"
 # fatload mmc 0 $kernel_addr_r Image
 # fatload mmc 0 $fdt_addr_r sun50i-h5-nanopi-neo2.dtb
 
+# fdt addr ${fdt_addr_r}
+# fdt resize 65536
+
 load mmc 0:1 ${kernel_addr_r} Image
 
-fdtfile=sun50i-h5-nanopi-neo-core2.dtb
 # Load the DT. On the NanoPi, fdtfile
-load mmc 0:1 ${fdt_addr_r} ${fdtfile}
+load mmc 0:1 ${fdt_addr_r} sun50i-h5-nanopi-neo-core2.dtb
 
-fdt addr ${fdt_addr_r}
-fdt resize 65536
 
 # overlay_prefix=sun8i-h5
 
@@ -105,7 +105,7 @@ fdt resize 65536
 
 # Boot!!
 
-# booti $kernel_addr_r - $fdt_addr_r
+# boot $kernel_addr_r - $fdt_addr_r
 
 booti ${kernel_addr_r} - ${fdt_addr_r}
 
