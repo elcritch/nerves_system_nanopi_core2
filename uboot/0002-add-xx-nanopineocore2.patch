@@ -19,7 +19,7 @@ new file mode 100644
 index 0000000..dd25549
 --- /dev/null
 +++ b/arch/arm/dts/sun50i-h5-nanopi-neo-core2.dts
-@@ -0,0 +1,132 @@
+@@ -0,0 +1,143 @@
 +/*
 + * Copyright (C) 2017 Antony Antony <antony@phenome.org>
 + * Copyright (c) 2016 ARM Ltd.
@@ -83,6 +83,17 @@ index 0000000..dd25549
 +
 +	memory {
 +		reg = <0x40000000 0x40000000>;
++	};
++
++	reg_gmac_3v3: gmac-3v3 {
++		compatible = "regulator-fixed";
++		pinctrl-names = "default";
++		regulator-name = "gmac-3v3";
++		regulator-min-microvolt = <3300000>;
++		regulator-max-microvolt = <3300000>;
++		startup-delay-us = <100000>;
++		enable-active-high;
++		gpio = <&pio 3 6 GPIO_ACTIVE_HIGH>;
 +	};
 +
 +	reg_vcc3v3: vcc3v3 {
