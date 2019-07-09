@@ -141,11 +141,11 @@ index 000000000..b3035ddd7
 +	status = "okay";
 +};
 +
-+&mdio {
++/*&mdio {
 +	ext_rgmii_phy: ethernet-phy@1 {
 +		reg = <0>;
 +	};
-+};
++};*/
 +
 +&emac {
 +	pinctrl-names = "default";
