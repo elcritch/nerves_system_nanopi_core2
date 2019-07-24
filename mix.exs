@@ -89,6 +89,8 @@ defmodule NervesSystemNanopiCore2.MixProject do
       "post-createfs.sh",
       "ramoops.dts",
       "README.md",
+      "uboot/*.patch",
+      "linux/*.patch",
       "VERSION"
     ]
   end
