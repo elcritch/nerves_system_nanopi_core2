@@ -19,7 +19,7 @@ new file mode 100644
 index 0000000..dd25549
 --- /dev/null
 +++ b/arch/arm/dts/sun50i-h5-nanopi-neo-core2.dts
-@@ -0,0 +1,149 @@
+@@ -0,0 +1,152 @@
 +/*
 + * Copyright (C) 2017 Antony Antony <antony@phenome.org>
 + * Copyright (c) 2016 ARM Ltd.
@@ -154,15 +154,19 @@ index 0000000..dd25549
 +	status = "okay";
 +};
 +
-+&uart1 {
-+	pinctrl-names = "default";
-+	pinctrl-1 = <&uart1_pins>;
-+	status = "okay";
-+};
-+
 +&uart0 {
 +	pinctrl-names = "default";
 +	pinctrl-0 = <&uart0_pins_a>;
++	status = "okay";
++};
++
++&uart1 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&uart1_pins>;
++	status = "okay";
++};
++
++&spi0 {
 +	status = "okay";
 +};
 +
