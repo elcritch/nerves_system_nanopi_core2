@@ -228,7 +228,7 @@ index 000000000..b3035ddd7
 +
 +&uart1 {
 +	pinctrl-names = "default";
-+	pinctrl-1 = <&uart1_pins_a>;
++	pinctrl-1 = <&uart1_pins>;
 +	status = "okay";
 +};
 +
