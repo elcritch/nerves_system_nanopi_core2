@@ -95,6 +95,7 @@ defmodule NervesSystemNanopiCore2.MixProject do
       "uboot/uboot_defconfig",
       "uboot/*.patch",
       "linux/*.patch",
+      "rootfs-additions/",
       "VERSION"
     ]
   end
