@@ -15,7 +15,7 @@ new file mode 100644
 index 000000000..b3035ddd7
 --- /dev/null
 +++ b/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo-core2.dts
-@@ -0,0 +1,220 @@
+@@ -0,0 +1,244 @@
 +/*
 + * Copyright (C) 2017 Antony Antony <antony@phenome.org>
 + * Copyright (C) 2016 ARM Ltd.
@@ -201,7 +201,31 @@ index 000000000..b3035ddd7
 +	status = "okay";
 +};
 +
++&ehci0 {
++	status = "okay";
++};
++
++&ohci1 {
++	status = "okay";
++};
++
++&ehci1 {
++	status = "okay";
++};
++
++&ohci2 {
++	status = "okay";
++};
++
++&ehci2 {
++	status = "okay";
++};
++
 +&ohci3 {
++	status = "okay";
++};
++
++&ehci3 {
 +	status = "okay";
 +};
 +
