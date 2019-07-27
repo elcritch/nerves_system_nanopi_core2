@@ -74,19 +74,9 @@ itest.b *0x28 == 0x02 && echo "Booting from eMMC or secondary SD"
 # Disable GPU memory (?)
 # if test "${disp_mem_reserves}" = "off"; then setenv bootargs "${bootargs} sunxi_ve_mem_reserve=0 sunxi_g2d_mem_reserve=0 sunxi_fb_mem_reserve=16"; fi
 
-setenv bootargs console=ttyS0,115200 earlyprintk loglevel=8 root=/dev/mmcblk0p2 rootfstype=squashfs ro rootwait optargs=rcu_nocbs=1-3 isolcpus=3
+setenv bootargs console=ttyS0,115200 earlyprintk loglevel=8 root=${rootdev} rootfstype=squashfs ro rootwait optargs=rcu_nocbs=1-3 isolcpus=3
 
 echo "Bootargs: ${bootargs}"
-
-# Load the kernel
-# load mmc 0:1 ${ramdisk_addr_r} /boot/uInitrd || load mmc 0 ${ramdisk_addr_r} uInitrd
-# load mmc 0:1 ${kernel_addr_r} /boot/zImage || load mmc 0 ${kernel_addr_r} zImage
-
-# fatload mmc 0 $kernel_addr_r Image
-# fatload mmc 0 $fdt_addr_r sun50i-h5-nanopi-neo2.dtb
-
-# fdt addr ${fdt_addr_r}
-# fdt resize 65536
 
 load mmc 0:1 ${kernel_addr_r} Image
 
@@ -104,9 +94,6 @@ load mmc 0:1 ${fdt_addr_r} sun50i-h5-nanopi-neo-core2.dtb
 # done
 
 # Boot!!
-
-# boot $kernel_addr_r - $fdt_addr_r
-
 booti ${kernel_addr_r} - ${fdt_addr_r}
 
 echo "Nerves boot failed!"
