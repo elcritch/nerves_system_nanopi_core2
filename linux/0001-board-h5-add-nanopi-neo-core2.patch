@@ -15,7 +15,7 @@ new file mode 100644
 index 000000000..b3035ddd7
 --- /dev/null
 +++ b/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo-core2.dts
-@@ -0,0 +1,253 @@
+@@ -0,0 +1,266 @@
 +/*
 + * Copyright (C) 2017 Antony Antony <antony@phenome.org>
 + * Copyright (C) 2016 ARM Ltd.
@@ -118,6 +118,18 @@ index 000000000..b3035ddd7
 +		pinctrl-names = "default";
 +		reset-gpios = <&r_pio 0 7 GPIO_ACTIVE_LOW>; /* PL7 */
 +		post-power-on-delay-ms = <200>;
++	};
++
++	ths@01c25000 {
++ 		compatible = "allwinner,sun8i-h3-ths";
++ 		reg = <0x1c25000 0x400 0x1c14234 0x4>;
++ 		interrupts = <0x0 0x1f 0x4>;
++ 		resets = <0x4 0x2a>;
++ 		reset-names = "ahb";
++ 		clocks = <0x4 0x37 0x4 0x45>;
++ 		clock-names = "ahb", "ths";
++ 		linux,phandle = <0x35>;
++ 		phandle = <0x35>;
 +	};
 +};
 +
@@ -269,3 +281,4 @@ index 000000000..b3035ddd7
 +	/* USB Type-A ports' VBUS is always on */
 +	status = "okay";
 +};
++
