@@ -51,7 +51,7 @@ defmodule NervesSystemNanopiCore2.MixProject do
       {:nerves, "~> 1.5", runtime: false},
       {:nerves_system_br, "1.8.6", runtime: false},
       # {:nerves_toolchain_arm_unknown_linux_gnueabihf, "1.1.0", runtime: false},
-      {:nerves_toolchain_aarch64_unknown_linux_gnueabi, "1.2.0", runtime: false},
+      {:nerves_toolchain_aarch64_unknown_linux_gnueabi, "1.1.0", runtime: false},
       {:nerves_system_linter, "~> 0.3.0", runtime: false},
       {:ex_doc, "~> 0.18", only: [:dev, :test], runtime: false}
     ]
