@@ -13,10 +13,9 @@ new file mode 100644
 index 0000000..39d6a27
 --- /dev/null
 +++ b/arch/arm/boot/dts/overlay/Makefile
-@@ -0,0 +1,89 @@
+@@ -0,0 +1,84 @@
 +# SPDX-License-Identifier: GPL-2.0
 +dtbo-$(CONFIG_MACH_SUN4I) += \
-+	sun4i-a10-analog-codec.dtbo \
 +	sun4i-a10-can.dtbo \
 +	sun4i-a10-i2c1.dtbo \
 +	sun4i-a10-i2c2.dtbo \
@@ -35,7 +34,6 @@ index 0000000..39d6a27
 +	sun4i-a10-w1-gpio.dtbo
 +
 +dtbo-$(CONFIG_MACH_SUN5I) += \
-+	sun5i-a13-analog-codec.dtbo \
 +	sun5i-a13-i2c1.dtbo \
 +	sun5i-a13-i2c2.dtbo \
 +	sun5i-a13-nand.dtbo \
@@ -51,7 +49,6 @@ index 0000000..39d6a27
 +	sun5i-a13-uart3.dtbo
 +
 +dtbo-$(CONFIG_MACH_SUN7I) += \
-+	sun7i-a20-analog-codec.dtbo \
 +	sun7i-a20-can.dtbo \
 +	sun7i-a20-i2c1.dtbo \
 +	sun7i-a20-i2c2.dtbo \
@@ -74,8 +71,6 @@ index 0000000..39d6a27
 +	sun7i-a20-w1-gpio.dtbo
 +
 +dtbo-$(CONFIG_MACH_SUN8I) += \
-+	sun8i-h3-analog-codec.dtbo \
-+	sun8i-h3-cir.dtbo \
 +	sun8i-h3-i2c0.dtbo \
 +	sun8i-h3-i2c1.dtbo \
 +	sun8i-h3-i2c2.dtbo \
@@ -4535,22 +4530,9 @@ new file mode 100644
 index 0000000..5cad268
 --- /dev/null
 +++ b/arch/arm64/boot/dts/allwinner/overlay/Makefile
-@@ -0,0 +1,51 @@
+@@ -0,0 +1,38 @@
 +# SPDX-License-Identifier: GPL-2.0
 +dtbo-$(CONFIG_ARCH_SUNXI) += \
-+	sun50i-a64-i2c0.dtbo \
-+	sun50i-a64-i2c1.dtbo \
-+	sun50i-a64-pps-gpio.dtbo \
-+	sun50i-a64-spi-add-cs1.dtbo \
-+	sun50i-a64-spi-jedec-nor.dtbo \
-+	sun50i-a64-spi-spidev.dtbo \
-+	sun50i-a64-uart1.dtbo \
-+	sun50i-a64-uart2.dtbo \
-+	sun50i-a64-uart3.dtbo \
-+	sun50i-a64-uart4.dtbo \
-+	sun50i-a64-w1-gpio.dtbo \
-+	sun50i-h5-analog-codec.dtbo \
-+	sun50i-h5-cir.dtbo \
 +	sun50i-h5-i2c0.dtbo \
 +	sun50i-h5-i2c1.dtbo \
 +	sun50i-h5-i2c2.dtbo \
